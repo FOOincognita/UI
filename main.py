@@ -21,11 +21,13 @@ def main():
 
 # Define what will be displayed on each page
 def home() -> None:
+    #TODO: Streamlit Essentials has a chat plugin already
     """ Welcome & Chat """
     st.title('Home')
     st.write('Welcome to the home page!')
 
 def table() -> None:
+    # TODO: Need to install streamlit essentails & use dataframe plugin
     """ This page will show rank table """
     st.title('Table')
     st.write('This is the Table page!')
