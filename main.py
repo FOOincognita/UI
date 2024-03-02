@@ -15,15 +15,13 @@ def main():
             analysis()
         case 'Settings':
             settings()
-        case 'Chat':
-            chat()
         case _:
             raise Exception
 
 
 # Define what will be displayed on each page
 def home() -> None:
-    """ Welcome & User Manual Link """
+    """ Welcome & Chat """
     st.title('Home')
     st.write('Welcome to the home page!')
 
@@ -40,10 +38,6 @@ def analysis() -> None:
 def settings() -> None:
     """ This is a simple settings page """
     st.title('Settings')
-    st.write('This is the settings page. Add your configuration settings or user preferences here.')
-    
-def chat() -> None:
-    st.title('ChatBot')
     st.write('This is the settings page. Add your configuration settings or user preferences here.')
 
 if __name__ == "__main__":
