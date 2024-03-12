@@ -1,28 +1,50 @@
 import streamlit as st
 from hugchat import hugchat
 from hugchat.login import Login
+from streamlit_extras.dataframe_explorer import dataframe_explorer as dfExplorer
+from streamlit_option_menu import option_menu
+
+import os
+import pandas as pd
+import time
+import toml
+import numpy as np
+
 #!! PUBLIC persistent storage; accessible by multiple employees
 # Define the layout of the app, including the sidebar and main pages
 
 # [TODO]: 
 #    1. Implement subtabs for analysis (bubbles)
-#    2. [Almost Done] Implement Home chatbot screen (using streamlit essentials)
-#    3. Add dataframe & prepare table input/output for easy back-end connection
-#    4. Brainstrom what kinds of financial & consumer data we'd like to display, & using which graph(s)
+#    2. Add dataframe & prepare table input/output for easy back-end connection
+#    3. Brainstrom what kinds of financial & consumer data we'd like to display, & using which graph(s)
 #        - Find sources for this info
-#    5. Implement settings
+#    4. Implement settings
 #
 
 # App title
-st.set_page_config(page_title="NX1 Chat")
+st.set_page_config(
+    page_title="NX1 Chat", 
+    layout="wide",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"
+    }
+)
 
-def main():
-    st.sidebar.title('Navigation')
-    tab = st.sidebar.radio('Tabs', ('Home', 'Output', 'Analysis', 'Settings'))
-
+def main() -> None:
+    with st.sidebar:
+        tab = option_menu(
+            default_index = 0,
+            menu_title    = "Neuro-X1",
+            menu_icon     = "capsule", # "prescription"; "prescription2"
+            options       = ["Chat", "Output", "Analysis", "Settings"] ,
+            icons         = ["robot", "database", "kanban", "gear"],
+        )
+    
     match tab:
-        case 'Home':
-            home()
+        case 'Chat':
+            chat()
         case 'Output':
             output()
         case 'Analysis':
@@ -31,6 +53,22 @@ def main():
             settings()
         case _:
             raise Exception
+
+
+# --------------- TEXT STREAM GENERATOR --------------- #
+def stream_data(text: str):
+    for word in text.split(" "):
+        yield f"{word} "
+        time.sleep(0.02)
+
+    yield pd.DataFrame(
+        np.random.randn(5, 10),
+        columns=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"],
+    )
+
+    for word in text.split(" "):
+        yield f"{word} "
+        time.sleep(0.02)
 
 
 # --------------- CHATBOT --------------- #
@@ -44,8 +82,7 @@ def generate_response(prompt_input: str, email: str, passwd: str) -> hugchat.Mes
     return chatbot.chat(prompt_input)
 
 # Define what will be displayed on each page
-    #! ChatBot Docs: https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/
-def home() -> None:
+def chat() -> None:
     #* Hugging Face Credentials
     with st.sidebar:
         st.title('💬 ChatBot')
@@ -60,7 +97,7 @@ def home() -> None:
                 st.warning('Please enter your credentials!', icon='⚠️')
             else:
                 st.success('Proceed to entering your prompt message!', icon='👉')
-        st.markdown('A message can go here')
+        st.caption('A message can go here') #? or st.markdown/latex/code/divider?
     
     # Store LLM generated responses
     if "messages" not in st.session_state.keys():
@@ -69,7 +106,8 @@ def home() -> None:
     # Display chat messages
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
-            st.write(message["content"])
+            #! st.write(message["content"])
+            st.write_stream(message["content"])
 
     # User-provided prompt
     if prompt := st.chat_input(disabled=not (hf_email and hf_pass)):
@@ -82,7 +120,8 @@ def home() -> None:
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 response = generate_response(prompt, hf_email, hf_pass) 
-                st.write(response) 
+                #! st.write(response)
+                st.write_stream(response) 
         message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
     
@@ -91,43 +130,79 @@ def home() -> None:
     #* [ARCHER]
 def output() -> None:
     # TODO: Need to install streamlit essentails & use dataframe plugin
-    """ This page will show rank table """
+    #! Names should be clickable; sends user to analysis to take cloer look at medication.
     st.title('Table')
-    st.write('This is the Table page!')
-    #* [ARCHER] 
-    #! Full Dataframe with Filter, save, & expand
-        #> Names should be clickable; sends user to analysis to take cloer look at medication.
     
-    #! LATER DOWN THE LINE:
-        #> Clickable option to pull up single/specific analysis page
+    #? Grab mock data file contents; load into df; correct dime/date [FIXME]
+    df = pd.read_csv(os.path.join(os.getcwd(), "tests", "DemoMeds.csv"))
+    df['Patent Expiration'] = pd.to_datetime(df['Patent Expiration'], format='%Y-%m-%d', errors='coerce').dt.strftime('%Y-%m-%d')
+    
+    table = dfExplorer(df, case=False)
+    st.dataframe(table, use_container_width=True)
+    
+    st.markdown("Eventually each drug will be clickable to view individial analytics")
 
 
 # --------------- ANALYTICS --------------- #
     #* [ALONSO]
 def analysis() -> None:
-    """ This page will show analytics fropm table & additional financial analytics """
-    st.title('Analytics')
-    st.write('This is the data page. Display your datasets or data-related functionalities here.')
-    #! GRAPHS
-    #! TOP 5s; Overview for each
-        #? SUB-TAB: Drug research stage (eg stage II clinical trials)
-        #? SUB-TAB: Drug financials (simialar drugs financials?)
-        #? SUB-TAB: Consumer Data
+    sub_tab = option_menu(
+        None,
+        options = ["Research", "Financial"],
+        icons = ['prescription2', 'cash-stack'],
+        default_index = 0,
+        orientation = "horizontal", 
+    )
 
+    match sub_tab:
+        case 'Research':
+            research()
+        case 'Financial':
+            financial()
+
+def research():
+    st.subheader("Drug Progress Bar")
+    
+def financial():
+    st.subheader("Graphs")
 
 # --------------- SETTINGS --------------- #
-    #* [ARCHER]
 def settings() -> None:
-    """ This is a simple settings page """
     st.title('Settings')
-    st.write('This is the settings page. Add your configuration settings or user preferences here.')
-    #! Light/Dark theme changer 
-    #! Ticket system; Setup Google Form using @neurox1.com email
-    #! Data sync between users 
-        #> If local, R/W lock
-        #> If Azure, no problem; only 1 person can access anyways
+    #! About; Contact Us; Light/Dark theme changer; Ticket system (Setup Google Forms); Retrain model?
+    #? Data sync between users
+ 
+    CFG_PATH = os.path.join(os.getcwd(), ".streamlit", "config.toml")
+    
+    LIGHT = {
+        'primaryColor'             : '"#3700B3"',
+        'backgroundColor'          : '"#FFFFFF"',
+        'secondaryBackgroundColor' : '"#F4F4F4"',
+        'textColor'                : '"#000000"',
+        'font'                     : '"sans serif"'
+    }
+
+    DARK = {
+        'primaryColor'             : '"#BB86FC"',
+        'backgroundColor'          : '"#121212"',
+        'secondaryBackgroundColor' : '"#303030"',
+        'textColor'                : '"#FFFFFF"',
+        'font'                     : '"sans serif"'
+    }
+
+    # Check if the switch is on or off
+    mode = LIGHT if st.checkbox('Switch Theme', value=False) else DARK
+
+    # Writing changes to config.toml
+    if os.path.exists(CFG_PATH):
+        CFG = toml.load(CFG_PATH)
+        CFG['theme'] = mode
+        with open(CFG_PATH, 'w') as file:
+            toml.dump(CFG, file)
+        st.info('Please rerun the app to apply theme changes', icon='⚠️')
         
-    #! LATER DOWN THE LINE: TAB: Retrain model?
+    else:
+        st.error('[ERROR]: File "/.streamlit/config.toml" Does Not Exist', icon='🚨')
     
 
 if __name__ == "__main__":

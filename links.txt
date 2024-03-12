@@ -1,0 +1,15 @@
+STREAMLIT DOCUMENTATION:
+- Objects: https://docs.streamlit.io/library/api-reference/text/st.divider
+
+
+OPTION MENU BAR:
+- Option-Menu Icons: https://icons.getbootstrap.com/
+- Option-Menu Repo: https://github.com/victoryhb/streamlit-option-menu
+
+CHATBOT:
+- ChatBot Docs: https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/
+
+DESIGN: 
+- Material Dark Theme: https://m2.material.io/design/color/dark-theme.html
+- WinUI3: https://learn.microsoft.com/en-us/windows/apps/design/
+

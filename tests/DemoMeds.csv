@@ -1,0 +1,31 @@
+Name,Strength,Patent Expiration,Manufacturer,Indication,FDA Approval
+Donepezil,10mg,2025-06-30,Pfizer,Alzheimer's Disease,Y
+Rivastigmine,4.5mg,2027-08-15,Takenda,Alzheimer's Disease,N
+Memantine,5mg,2024-11-10,Teva Pharmaceuticals,Alzheimer's Disease,Y
+Rasagiline,1mg,2026-09-20,Shire,Parkinson's Disease,Y
+Entacapone,200mg,2028-12-05,Synapse Solutions,Parkinson's Disease,N
+Galantamine,8mg,2029-04-17,MindMed Co.,Alzheimer's Disease,Y
+Selegiline,5mg,2030-03-22,BrainTech Pharma,Parkinson's Disease,Y
+Riluzole,50mg,2023-07-14,Neural Advance Inc.,Amyotrophic Lateral Sclerosis,N
+Tolcapone,100mg,2031-01-30,CortexCare Pharmaceuticals,Parkinson's Disease,Y
+Amantadine,100mg,2024-05-18,NerveHeal Pharma,Parkinson's Disease,N
+Levodopa/Carbidopa,100mg/25mg,2032-10-21,NeuroGlobal Inc.,Parkinson's Disease,Y
+Pramipexole,0.75mg,2026-04-12,BrainGuard Pharmaceuticals,Parkinson's Disease,N
+Rotigotine,3mg,2027-03-19,NeuroSynth Labs,Parkinson's Disease,Y
+Edaravone,30mg,2025-08-08,NeuralHealth Solutions,Amyotrophic Lateral Sclerosis,N
+Trihexyphenidyl,2mg,2028-11-11,CortexRevive Pharma,Parkinson's Disease,Y
+Benztropine,1mg,2029-06-30,NeuroVance Therapeutics,Parkinson's Disease,N
+Istradefylline,20mg,2030-02-15,BrainTech Innovations,Parkinson's Disease,Y
+Bromocriptine,2.5mg,2033-07-22,NeuroSphere Pharma,Parkinson's Disease,N
+Ginkgo Biloba,120mg,2023-12-10,HerbalNeuro Inc.,Memory Disorders,Y
+Huperzine A,200mcg,2024-09-05,MindNatural Pharma,Alzheimer's Disease,N
+Bacopa Monnieri,300mg,2027-04-17,GreenMind Pharmaceuticals,Memory Disorders,Y
+Nefiracetam,600mg,2031-10-20,SynapticHealth Corp.,Alzheimer's Disease,N
+Oxiracetam,800mg,2022-05-26,CognitiveEdge Pharmaceuticals,Memory Disorders,Y
+Piracetam,400mg,2032-01-15,BrainMax Pharma,Alzheimer's Disease,N
+Aniracetam,750mg,2028-07-07,NeuroEnhance Inc.,Memory Disorders,Y
+Vitamin E,400IU,2025-03-03,NutraBrain Pharma,Alzheimer's Disease,N
+Coenzyme Q10,100mg,2026-12-12,WellnessNeuro Labs,Parkinson's Disease,Y
+Memantine/Donepezil,28mg/10mg,2029-05-20,CombinedCure Pharmaceuticals,Alzheimer's Disease,N
+Citicoline,500mg,2034-08-18,BrainCharge Pharma,Memory Disorders,Y
+Alpha GPC,300mg,2030-04-04,NeuroBoost Labs,Alzheimer's Disease,N
