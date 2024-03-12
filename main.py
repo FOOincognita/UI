@@ -1,7 +1,8 @@
 import streamlit as st
+from hugchat import hugchat
+from hugchat.login import Login
 #!! PUBLIC persistent storage; accessible by multiple employees
 # Define the layout of the app, including the sidebar and main pages
-
 
 # [TODO]: 
 #    1. Implement subtabs for analysis (bubbles)
@@ -11,6 +12,9 @@ import streamlit as st
 #        - Find sources for this info
 #    5. Implement settings
 #
+
+# App title
+st.set_page_config(page_title="NX1 Chat")
 
 def main():
     st.sidebar.title('Navigation')
@@ -29,38 +33,61 @@ def main():
             raise Exception
 
 
+# --------------- CHATBOT --------------- #
+# Function for generating LLM response
+def generate_response(prompt_input: str, email: str, passwd: str) -> hugchat.Message:
+    # Hugging Face Login
+    sign = Login(email, passwd)
+    cookies = sign.login()
+    # Create ChatBot                        
+    chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
+    return chatbot.chat(prompt_input)
+
 # Define what will be displayed on each page
-    #* [ALONSO]
+    #! ChatBot Docs: https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/
 def home() -> None:
-    #TODO: Streamlit Essentials has a chat plugin already
-    #! "Welcome to Neuro-X1's GPT Bot"
-    #! ChatBot/Chatbox "What are you looking to research today?"
+    #* Hugging Face Credentials
+    with st.sidebar:
+        st.title('💬 ChatBot')
+        if ('EMAIL' in st.secrets) and ('PASS' in st.secrets):
+            st.success('HuggingFace Login credentials already provided!', icon='✅')
+            hf_email = st.secrets['EMAIL']
+            hf_pass  = st.secrets['PASS']
+        else:
+            hf_email = st.text_input('Enter E-mail:', type='password')
+            hf_pass  = st.text_input('Enter password:', type='password')
+            if not (hf_email and hf_pass):
+                st.warning('Please enter your credentials!', icon='⚠️')
+            else:
+                st.success('Proceed to entering your prompt message!', icon='👉')
+        st.markdown('A message can go here')
     
-    if 'history' not in st.session_state:
-        st.session_state['history'] = []
+    # Store LLM generated responses
+    if "messages" not in st.session_state.keys():
+        st.session_state.messages = [{"role": "assistant", "content": "DEFAULT RESPONSE"}]
 
-    def send_message():
-        user_input = st.session_state.user_input
-        if user_input:
-            st.session_state.history.append(f"You: {user_input}")
-            chatbot_response = "Chatbot response..." #! [FIXME]: ChatBot Response
-            st.session_state.history.append(f"Chatbot: {chatbot_response}")
-            st.session_state.user_input = ""
+    # Display chat messages
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.write(message["content"])
 
-   
-    st.title('Neuro-X1 AI')
-    #st.write('What are you looking to research today?\n\n<Chatbot goes here>')
-    chat_container = st.container()
-            
-    with st.container():
-        # This will be fixed at the bottom of the page
-        user_input = st.text_input("Your question", key = "user_input", on_change = send_message, placeholder = "Type here...")
+    # User-provided prompt
+    if prompt := st.chat_input(disabled=not (hf_email and hf_pass)):
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.write(prompt)
 
-    with chat_container:
-        for idx, message in enumerate(st.session_state.history):
-            st.text_area("", value = message, height = 75, key = (f"msg_{idx}"))
+    # Generate a new response if last message is not from assistant
+    if st.session_state.messages[-1]["role"] != "assistant":
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response = generate_response(prompt, hf_email, hf_pass) 
+                st.write(response) 
+        message = {"role": "assistant", "content": response}
+        st.session_state.messages.append(message)
+    
 
-
+# --------------- DATA FRAME --------------- #
     #* [ARCHER]
 def output() -> None:
     # TODO: Need to install streamlit essentails & use dataframe plugin
@@ -74,6 +101,8 @@ def output() -> None:
     #! LATER DOWN THE LINE:
         #> Clickable option to pull up single/specific analysis page
 
+
+# --------------- ANALYTICS --------------- #
     #* [ALONSO]
 def analysis() -> None:
     """ This page will show analytics fropm table & additional financial analytics """
@@ -85,6 +114,8 @@ def analysis() -> None:
         #? SUB-TAB: Drug financials (simialar drugs financials?)
         #? SUB-TAB: Consumer Data
 
+
+# --------------- SETTINGS --------------- #
     #* [ARCHER]
 def settings() -> None:
     """ This is a simple settings page """
@@ -95,7 +126,6 @@ def settings() -> None:
     #! Data sync between users 
         #> If local, R/W lock
         #> If Azure, no problem; only 1 person can access anyways
-        
         
     #! LATER DOWN THE LINE: TAB: Retrain model?
     
