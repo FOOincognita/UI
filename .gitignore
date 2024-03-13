@@ -1,10 +1,2 @@
 *.key
-._.*
-._Chat
-._main.py
-._README.md
-._.gitignore
-Chat/._test.py
-Chat/.streamlit/._config.toml
-Chat/.streamlit/._secrets.toml
-Chat/._chat.py
+**/._*

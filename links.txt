@@ -1,5 +1,8 @@
 STREAMLIT DOCUMENTATION:
-- Objects: https://docs.streamlit.io/library/api-reference/text/st.divider
+- Objects/Features: https://docs.streamlit.io/library/api-reference/text/st.divider
+
+STREAMLIT EXTRAS:
+- Objects/Features: https://arnaudmiribel.github.io/streamlit-extras/extras/add_vertical_space/
 
 
 OPTION MENU BAR:
