@@ -84,7 +84,7 @@ def chat() -> None:
     
     # Store LLM generated responses
     if "messages" not in st.session_state.keys():
-        st.session_state.messages = [{"role": "assistant", "content": "What can I help you with today?"}]
+        st.session_state.messages = [{"role": "assistant", "content": "Welcome to MedGet! What can I help you with today?"}]
 
     # Display chat messages
     for message in st.session_state.messages:

@@ -1,3 +1,4 @@
 *.key
 **/._*
 ._*
+secrets.toml
