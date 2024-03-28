@@ -11,13 +11,12 @@ from Modules.Agents import _ConfigAgent as Cfg, _ChatAgent as ChatUI #? Read/Wri
 
 
 # TODO:
-#    0. ADD AUTO-SEND FOR CRASHES FOR REMOTE & AUTONOMOUS BUG FIXES
-#    1. Implement subtabs for analysis (bubbles)
-#    2. Add dataframe & prepare table input/output for easy back-end connection
-#    3. Brainstrom what kinds of financial & consumer data we'd like to display, & using which graph(s)
-#        - Find sources for this info
-#    4. Implement settings
-#
+#    * ADD AUTO-SEND FOR CRASHES FOR REMOTE & AUTONOMOUS BUG FIXES
+#    * Implement subtabs for analysis (bubbles)
+#    * Add dataframe & prepare table input/output for easy back-end connection
+#    * Brainstrom what kinds of financial & consumer data we'd like to display, & using which graph(s)
+#        > Find sources for this info
+#    * Implement settings
 
 
 # Global App Config
@@ -68,7 +67,7 @@ def generate_response(prompt_input: str, email: str, passwd: str) -> hugchat.Mes
 def chat() -> None:
     # Hugging Face Credentials
     with st.sidebar:
-        st.title('💬 HugChat Login')
+        st.title('💬 MedGet HF Login')
         if ('EMAIL' in st.secrets) and ('PASS' in st.secrets):
             st.success('HuggingFace Login credentials already provided!', icon='✅')
             hf_email = st.secrets['EMAIL']
@@ -151,6 +150,7 @@ def settings() -> None:
     st.title('Settings')
     #! Persistent settings stored in /settings/settings.json
     #! About; Contact Us; Light/Dark; Tickets (Google Forms); Retrain model?
+    #! Updates & version no & last updated counter
     #? Data sync between users
  
  
