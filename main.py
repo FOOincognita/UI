@@ -19,6 +19,7 @@ from Modules.Agents import _ConfigAgent as Cfg, _ChatAgent as ChatUI #? Read/Wri
 #    * Implement settings
 
 
+#* --------------- GLOBAL CONFIG --------------- *#
 # Global App Config
 st.set_page_config(
     page_title = "Aggies Create | MedGet", 
@@ -73,8 +74,8 @@ def chat() -> None:
             hf_email = st.secrets['EMAIL']
             hf_pass  = st.secrets['PASS']
         else:
-            hf_email = st.text_input('Enter E-mail:', type='password')
-            hf_pass  = st.text_input('Enter password:', type='password')
+            hf_email = st.text_input('Enter E-mail:', type='Email')
+            hf_pass  = st.text_input('Enter Password:', type='Password')
             if not (hf_email and hf_pass):
                 st.warning('Please enter your credentials!', icon='⚠️')
             else:
@@ -148,30 +149,22 @@ def financial():
 #* --------------- SETTINGS --------------- *#
 def settings() -> None:
     st.title('Settings')
-    #! Persistent settings stored in /settings/settings.json
-    #! About; Contact Us; Light/Dark; Tickets (Google Forms); Retrain model?
-    #! Updates & version no & last updated counter
-    #? Data sync between users
- 
- 
-    #> This will soon be a light/dark mode switch...
-    # FIXME: This implementation is...fried...Make it less cursed
-    CFG_PATH = os.path.join(os.getcwd(), ".streamlit", "config.toml")
+
     
-    HEADER = "[theme]"
-    FOOTER = "[server]\nenableStaticServing = true\n"
+    #* 0. App settings
+        ## i. App Theme
     
-    LIGHT = '\nprimaryColor="#3700B3'              \
-          + '\nbackgroundColor="#FFFFFF"'          \
-          + '\nsecondaryBackgroundColor="#F4F4F4"' \
-          + '\ntextColor="#000000"'                \
-          + '\nfont="sans serif"\n\n'              \
-              
-    DARK = '\nprimaryColor="#BB86FC'               \
-         + '\nbackgroundColor="#121212"'           \
-         + '\nsecondaryBackgroundColor="#303030"'  \
-         + '\ntextColor="#FFFFFF"'                 \
-         + '\nfont="sans serif"\n\n'               \
+    #* 1. File Handling
+        ## i. File Selection Box (ADD WARNING)
+        ## ii. File Upload for AI model
+        
+    #* 2. Model Settings
+        ## i. Model Type
+        
+    #* 3. Information
+        ## i. About
+        ## ii. Contact Us
+        ## iii. Updates & version no & last updated counter
     
 
 if __name__ == "__main__":
