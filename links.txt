@@ -16,3 +16,12 @@ DESIGN:
 - Material Dark Theme: https://m2.material.io/design/color/dark-theme.html
 - WinUI3: https://learn.microsoft.com/en-us/windows/apps/design/
 
+CHARTS:
+- Built-in: https://docs.streamlit.io/develop/api-reference/charts
+- ECharts: https://github.com/andfanilo/streamlit-ech   arts
+- Lightweight Charts: https://github.com/freyastreamlit/streamlit-lightweight-charts
+- Tab Bar: https://github.com/Mohamed-512/Extra-Streamlit-Components
+- Nested Layouts: https://github.com/joy13975/streamlit-nested-layout?tab=readme-ov-file
+- Keyup Search: https://github.com/blackary/streamlit-keyup
+- Hover Tabs: https://github.com/Socvest/streamlit-on-Hover-tabs
+- Dynamic Tabs: https://github.com/Socvest/streamlit-dynamic-tabs

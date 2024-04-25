@@ -12,11 +12,11 @@ from Modules.Agents import _ConfigAgent as Cfg, _ChatAgent as ChatUI #? Read/Wri
 
 # TODO:
 #    * ADD AUTO-SEND FOR CRASHES FOR REMOTE & AUTONOMOUS BUG FIXES
-#    * Implement subtabs for analysis (bubbles)
-#    * Add dataframe & prepare table input/output for easy back-end connection
 #    * Brainstrom what kinds of financial & consumer data we'd like to display, & using which graph(s)
 #        > Find sources for this info
 #    * Implement settings
+
+#* Add bouncing image on first boot
 
 
 #* --------------- GLOBAL CONFIG --------------- *#
@@ -74,8 +74,8 @@ def chat() -> None:
             hf_email = st.secrets['EMAIL']
             hf_pass  = st.secrets['PASS']
         else:
-            hf_email = st.text_input('Enter E-mail:', type='Email')
-            hf_pass  = st.text_input('Enter Password:', type='Password')
+            hf_email = "" # st.text_input('Enter E-mail:', type='email')
+            hf_pass  = "" # st.text_input('Enter Password:', type='password')
             if not (hf_email and hf_pass):
                 st.warning('Please enter your credentials!', icon='⚠️')
             else:
@@ -142,9 +142,18 @@ def analysis() -> None:
 
 def research():
     st.subheader("Drug Progress Bar")
-    
+    #* 0. Stepper Bar - Progress Bar for Drug
+
+    #* 1. Graphs
+        ## i. 3D Map
+            ## ia. 
+        ## ii. 
+        ## iii. 
+        ## iv. 
+        
 def financial():
     st.subheader("Graphs")
+    #* 0. 
 
 #* --------------- SETTINGS --------------- *#
 def settings() -> None:
