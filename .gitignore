@@ -2,3 +2,4 @@
 **/._*
 ._*
 secrets.toml
+.streamlit/secrets.toml

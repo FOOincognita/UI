@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import time
 
 import streamlit as st
 from hugchat import hugchat
@@ -8,6 +9,7 @@ from streamlit_option_menu import option_menu
 from streamlit_extras.dataframe_explorer import dataframe_explorer as dfExplorer
 
 from Modules.Agents import _ConfigAgent as Cfg, _ChatAgent as ChatUI #? Read/Write to/from settings.json
+from WIPCode.financial import financial as fin
 
 
 # TODO:
@@ -53,6 +55,12 @@ def main() -> None:
             st.exception(RuntimeError("[ERROR]: Default Case Reached in main()"))
 
 
+def sstream(txt: hugchat.Message):
+    for word in txt.split():
+        yield f"{word} "
+        time.sleep(0.04)
+
+
 #* --------------- CHATBOT --------------- *#
 # Function for generating LLM response
 def generate_response(prompt_input: str, email: str, passwd: str) -> hugchat.Message:
@@ -68,9 +76,9 @@ def generate_response(prompt_input: str, email: str, passwd: str) -> hugchat.Mes
 def chat() -> None:
     # Hugging Face Credentials
     with st.sidebar:
-        st.title('💬 MedGet HF Login')
+        ##st.title('💬 MedGet Login')
         if ('EMAIL' in st.secrets) and ('PASS' in st.secrets):
-            st.success('HuggingFace Login credentials already provided!', icon='✅')
+            st.success('Credentials Accepted!', icon='✅')
             hf_email = st.secrets['EMAIL']
             hf_pass  = st.secrets['PASS']
         else:
@@ -80,7 +88,7 @@ def chat() -> None:
                 st.warning('Please enter your credentials!', icon='⚠️')
             else:
                 st.success('Proceed to entering your prompt message!', icon='👉')
-        st.caption('A message can go here') #? or st.markdown
+        ##st.caption('A message can go here') #? or st.markdown
     
     # Store LLM generated responses
     if "messages" not in st.session_state.keys():
@@ -89,8 +97,8 @@ def chat() -> None:
     # Display chat messages
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
-            #! st.write(message["content"])
-            st.write_stream(ChatUI.sstream(message["content"])) 
+            st.write(message["content"])
+            ##st.write_stream(sstream(message["content"])) 
 
     # User-provided prompt
     if prompt := st.chat_input(disabled=not (hf_email and hf_pass)):
@@ -102,9 +110,9 @@ def chat() -> None:
     if st.session_state.messages[-1]["role"] != "assistant":
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
-                response = generate_response(prompt, hf_email, hf_pass) 
-                #! st.write(response)
-                st.write_stream(ChatUI.sstream(response))
+                response = generate_response(prompt, hf_email, hf_pass).__str__()
+                st.write(response)
+                ##st.write_stream(sstream(response))
         message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
     
@@ -112,7 +120,7 @@ def chat() -> None:
 #* --------------- DATA FRAME --------------- *#
 def output() -> None:
     #? Names clickable; sends user to analysis to take cloer look at medication.
-    st.title('Table')
+    st.title('Table Output')
     
     #? Grab mock data file contents; load into df; correct dime/date [FIXME]
     df = pd.read_csv(os.path.join(os.getcwd(), "tests", "DemoMeds.csv"))
@@ -141,8 +149,10 @@ def analysis() -> None:
             st.exception(RuntimeError("[ERROR]: Default Case Reached in analysis()"))
 
 def research():
-    st.subheader("Drug Progress Bar")
     #* 0. Stepper Bar - Progress Bar for Drug
+    from WIPCode.maps import research
+    
+    research()
 
     #* 1. Graphs
         ## i. 3D Map
@@ -152,14 +162,18 @@ def research():
         ## iv. 
         
 def financial():
-    st.subheader("Graphs")
+    fin()
     #* 0. 
 
 #* --------------- SETTINGS --------------- *#
 def settings() -> None:
     st.title('Settings')
-
-    
+    files = st.file_uploader("Upload files to embed", accept_multiple_files=True)
+    if files:
+        st.write("Files Sucessfully embedded")
+        ##st.write(bytes_data)
+        
+        
     #* 0. App settings
         ## i. App Theme
     

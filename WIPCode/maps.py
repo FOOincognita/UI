@@ -1,9 +1,20 @@
+import streamlit as st
+import pandas as pd
+import extra_streamlit_components as stx
+import pydeck as pdk
+import numpy as np
 
-
+@st.cache_data(experimental_allow_widgets=1)
 def research():
-    st.subheader("Drug Progress Bar")
-    val = stx.stepper_bar(steps=["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5"])
+    st.title("Oxiracetam")
+    st.subheader("Clinical Trial Approval Stage")
+    
+    val = stx.stepper_bar(steps=["Phase 2", "Phase 3", "Phase 4", "Phase 5"])
+ 
+    
+    #st.session_state["stepper___A"] = stx.stepper_bar(steps=["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5"])
 
+    st.subheader("Concentration of Texas residents reporting excessive lethargia")
     # Example population categories (simplified for this example)
     population_categories = {
         'Houston': 'large',
