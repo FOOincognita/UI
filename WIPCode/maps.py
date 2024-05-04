@@ -4,17 +4,20 @@ import extra_streamlit_components as stx
 import pydeck as pdk
 import numpy as np
 
-@st.cache_data(experimental_allow_widgets=1)
+#@st.cache_data(experimental_allow_widgets=1)
 def research():
+    st.caption("[ATTENTION]: We are working on getting models to output specific formatting to indicate that they are building a data-table, which will show up in the 'output' tab.\nIn this concept, it shows the analysis screen for a user selection of the medication 'Oxiracetam' from within the dataframe in the previous tab. Here all know data such as clinical phase, population analytics, and financials related to the medication will appear.")
     st.title("Oxiracetam")
+    st.markdown("Oxiracetam a nootropic used for cognitive enhancement. Many studies have been published suggesting it is effective in the treatment of dementia & excessive lethargia")
     st.subheader("Clinical Trial Approval Stage")
+    st.caption("Enumeration for this widget must be fixed by modifying the source code")
     
     val = stx.stepper_bar(steps=["Phase 2", "Phase 3", "Phase 4", "Phase 5"])
  
     
     #st.session_state["stepper___A"] = stx.stepper_bar(steps=["Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5"])
 
-    st.subheader("Concentration of Texas residents reporting excessive lethargia")
+    st.subheader("Concentration of Texas residents with dementia")
     # Example population categories (simplified for this example)
     population_categories = {
         'Houston': 'large',
@@ -90,3 +93,5 @@ def research():
             ),
         ],
     ))
+    
+    st.caption("The map above shows a dataset of concentration of the population of Texas that are affected by a disease/illness that the selected medication treats.\nThis is an example of the type of data that can be displayed, however any type of requested data can be output instead.")

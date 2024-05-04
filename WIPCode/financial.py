@@ -5,7 +5,8 @@ import plotly.express as px
 import plotly.figure_factory as ff
 
 def financial():
-
+    st.title("Financial Data for Oxiracetam")
+    st.caption("The figures below utilize a mock dataset to show the concept of the financial tab with interactive graphs. In future releases, it will be dynamically updated based on a user's selection in the 'Output' tab, or by inputting text to select a medication.\nAnother planned feature is a vision model for this tab -- at the click of a button, a screenshot of all graphs will be taken & passed to a vision AI model. The model will analyze the graphs & summarize the data for the user.")
     # Set the random seed for reproducibility
     np.random.seed(0)
 
