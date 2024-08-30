@@ -35,3 +35,5 @@ class _ChatAgent():
         for word in txt.split(" "):
             yield f"{word} "
             time.sleep(0.04)
+            
+            

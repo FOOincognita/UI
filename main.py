@@ -32,7 +32,7 @@ from WIPCode.MUI import dashboard as dash
 st.set_page_config(
     page_title = "Aggies Create | MedGet", 
     page_icon  = "assets/NX1_Favicon.png",
-    layout     = "wide",
+    layout     = "wide", #? fixed
     menu_items = {             
         # FIXME: Replace with proper links 
         'Get Help'     : 'https://github.com/FOOincognita/UI/', #!
@@ -56,7 +56,7 @@ def main() -> None:
         case 'Chat':     chat()
         case 'Output':   output()
         case 'Analysis': analysis()
-        case 'Files': settings()
+        case 'Files': files()
         case 'HMA': HMA()
         case 'Dashboard': dashboard()
         case _:
@@ -181,7 +181,7 @@ def financial():
     #* 0. 
 
 #* --------------- SETTINGS --------------- *#
-def settings() -> None:
+def files() -> None:
     st.title('File Embedding')
     st.caption("We are currently in the process of implementing a LangChain integration. LangChain will allow users to upload files such as PDFs, Excel spreadsheets, etc containing unique/private data, it will store it on a local private vector database, then all models will have access to it & will refer to it when necessary.\nLangChain will also give the models access to Google services like Search, Drive, & even YouTube transcripts.")
     files = st.file_uploader("Upload files to embed", accept_multiple_files=True)
