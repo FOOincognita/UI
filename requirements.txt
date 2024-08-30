@@ -1,2 +1,9 @@
+numpy
+openai
+pandas
+pydeck
+plotly
 streamlit
 streamlit-elements
+streamlit-option-menu
+extra-streamlit-components
